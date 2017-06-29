@@ -28,6 +28,24 @@ class Rubiks_Cube():
                        Rubiks_Side('w'),
                        Rubiks_Side('y')]
 
+    def __repr__(self):
+        def split_repr(side):
+            return side.__repr__().split('\n')
+        repr = []
+        blank = split_repr(Rubiks_Side(' '))
+        red = split_repr(self._sides[0])
+        orange = split_repr(self._sides[1])
+        green = split_repr(self._sides[2])
+        blue = split_repr(self._sides[3])
+        white = split_repr(self._sides[4])
+        yellow = split_repr(self._sides[5])
+        repr.extend([blank[i] + ' ' + yellow[i] for i in range(len(blank))])
+        repr.extend([blank[i] + ' ' + orange[i] for i in range(len(blank))])
+        repr.extend([green[i] + ' ' + white[i] + ' ' + blue[i] for i in range(len(green))])
+        repr.extend([blank[i] + ' ' + red[i] for i in range(len(blank))])
+
+        return '\n'.join(repr)
+
     def rotate(self, side=0, direction='cw'):
         face = side
         # pick the 'face' to rotate if rotating a middle section
@@ -72,5 +90,4 @@ class Rubiks_Cube():
 
 
 a = Rubiks_Cube()
-a.rotate()
-a.rotate(1)
+print(a)
