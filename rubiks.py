@@ -1,3 +1,13 @@
+def print_color(c):
+    if c[0] == ' ': return [' ',' ',' ']
+    return ['\033[' + {
+            'R': '91',
+            'O': '33',
+            'Y': '93',
+            'G': '92',
+            'B': '94',
+            'W': '97'
+            }[i] + 'm' + i + '\033[0m' for i in c]
 
 class Rubiks_Side():
     """ One side of a Rubik's cube """
@@ -8,7 +18,7 @@ class Rubiks_Side():
             self._face.append([color, color, color])
 
     def __repr__(self):
-        return '\n'.join(' '.join(i) for i in self._face)
+        return '\n'.join(' '.join(print_color(i)) for i in self._face)
 
     def rotate(self):
         # self._face = rotate(rotate(rotate(self._face)))
@@ -36,12 +46,12 @@ class Rubiks_Cube():
     """ A Rubik's cube """
 
     def __init__(self):
-        self._sides = [Rubiks_Side('r'),
-                       Rubiks_Side('o'),
-                       Rubiks_Side('g'),
-                       Rubiks_Side('b'),
-                       Rubiks_Side('w'),
-                       Rubiks_Side('y')]
+        self._sides = [Rubiks_Side('R'),
+                       Rubiks_Side('O'),
+                       Rubiks_Side('G'),
+                       Rubiks_Side('B'),
+                       Rubiks_Side('W'),
+                       Rubiks_Side('Y')]
 
     def __repr__(self):
         def split_repr(side):
@@ -50,11 +60,11 @@ class Rubiks_Cube():
         blank = split_repr(Rubiks_Side(' '))
         red = split_repr(self._sides[0])
         # orange = split_repr(self._sides[1])[::-1]
-        orange = [' '.join(i) for i in rotate(rotate(self._sides[1]._face))]
-        green = [' '.join(i) for i in rotate(rotate(rotate(self._sides[2]._face)))]
-        blue = [' '.join(i) for i in rotate(self._sides[3]._face)]
+        orange = [' '.join(print_color(i)) for i in rotate(rotate(self._sides[1]._face))]
+        green = [' '.join(print_color(i)) for i in rotate(rotate(rotate(self._sides[2]._face)))]
+        blue = [' '.join(print_color(i)) for i in rotate(self._sides[3]._face)]
         white = split_repr(self._sides[4])
-        yellow = [' '.join(i[::-1]) for i in self._sides[5]._face]
+        yellow = [' '.join(print_color(i[::-1])) for i in self._sides[5]._face]
         repr.extend([blank[i] + ' ' + yellow[i] for i in range(len(blank))])
         repr.extend([blank[i] + ' ' + orange[i] for i in range(len(blank))])
         repr.extend([green[i] + ' ' + white[i] + ' ' + blue[i] for i in range(len(green))])
