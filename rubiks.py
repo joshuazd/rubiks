@@ -1,5 +1,6 @@
 def print_color(c):
-    if c[0] == ' ': return [' ',' ',' ']
+    if c[0] == ' ':
+        return [' ', ' ', ' ']
     return ['\033[' + {
             'R': '91',
             'O': '33',
@@ -8,6 +9,7 @@ def print_color(c):
             'B': '94',
             'W': '97'
             }[i] + 'm' + i + '\033[0m' for i in c]
+
 
 class Rubiks_Side():
     """ One side of a Rubik's cube """
@@ -31,7 +33,8 @@ class Rubiks_Side():
         self._face[rowNum] = row
 
     def get_col(self, colNum):
-        return [self._face[0][colNum], self._face[1][colNum], self._face[2][colNum]]
+        return [self._face[0][colNum], self._face[1][colNum],
+                self._face[2][colNum]]
 
     def set_col(self, colNum, col):
         for i in range(len(col)):
@@ -59,15 +62,21 @@ class Rubiks_Cube():
         repr = []
         blank = split_repr(Rubiks_Side(' '))
         red = split_repr(self._sides[0])
-        # orange = split_repr(self._sides[1])[::-1]
-        orange = [' '.join(print_color(i)) for i in rotate(rotate(self._sides[1]._face))]
-        green = [' '.join(print_color(i)) for i in rotate(rotate(rotate(self._sides[2]._face)))]
+        orange = [' '.join(print_color(i)) for i in
+                  rotate(rotate(self._sides[1]._face))]
+        green = [
+            ' '.join(
+                print_color(i)) for i in rotate(
+                rotate(
+                    rotate(
+                        self._sides[2]._face)))]
         blue = [' '.join(print_color(i)) for i in rotate(self._sides[3]._face)]
         white = split_repr(self._sides[4])
         yellow = [' '.join(print_color(i[::-1])) for i in self._sides[5]._face]
         repr.extend([blank[i] + ' ' + yellow[i] for i in range(len(blank))])
         repr.extend([blank[i] + ' ' + orange[i] for i in range(len(blank))])
-        repr.extend([green[i] + ' ' + white[i] + ' ' + blue[i] for i in range(len(green))])
+        repr.extend([green[i] + ' ' + white[i] + ' ' + blue[i]
+                     for i in range(len(green))])
         repr.extend([blank[i] + ' ' + red[i] for i in range(len(blank))])
 
         return '\n'.join(repr)
@@ -92,17 +101,17 @@ class Rubiks_Cube():
             face = (face - 6) * 2
 
         # ignoring the faces parallel to the rotating section
-        ignore = [face, face - 1 if face % 2 else face + 1]
-        ignore.sort()
+        ignore = sorted([face, face - 1 if face % 2 else face + 1])
         sides_to_rotate = list(range(6))
-        sides_to_rotate = sides_to_rotate[0:ignore[0]] + sides_to_rotate[ignore[1]+1:]
+        sides_to_rotate = sides_to_rotate[0:ignore[0]
+                                          ] + sides_to_rotate[ignore[1] + 1:]
         sides_to_rotate = [{'side': i} for i in sides_to_rotate]
 
         rows_cols = []
         reverse = []
-        # for each of the 3 orthogonal rotations, determine whether we need to reverse
-        # a row/column when it is moved, and whether it is a row or a column that should
-        # be moved
+        # for each of the 3 orthogonal rotations, determine whether we need to
+        # reverse a row/column when it is moved, and whether it is a row or a
+        # column that should be moved
         if face in (0, 1):
             reverse = [-1, 1, 1, -1]
             rows_cols = ['c', 'c', 'r', 'r']
@@ -117,9 +126,11 @@ class Rubiks_Cube():
 
         # determine which row/column is moved
         if side in (0, 3):
-            rows_cols = [{'slice': j + ('0' if i % 2 else '2')} for i, j in enumerate(rows_cols)]
+            rows_cols = [{'slice': j + ('0' if i % 2 else '2')}
+                         for i, j in enumerate(rows_cols)]
         elif side in (1, 2):
-            rows_cols = [{'slice': j + ('2' if i % 2 else '0')} for i, j in enumerate(rows_cols)]
+            rows_cols = [{'slice': j + ('2' if i % 2 else '0')}
+                         for i, j in enumerate(rows_cols)]
         elif side == 4:
             rows_cols = [{'slice': i + '0'} for i in rows_cols]
         elif side == 5:
@@ -129,7 +140,9 @@ class Rubiks_Cube():
 
         sides_to_rotate = list(zip(sides_to_rotate, rows_cols, reverse))
         for index, i in enumerate(sides_to_rotate):
-            sides_to_rotate[index] = {key: item for j in i for key, item in j.items()}
+            sides_to_rotate[index] = {
+                key: item for j in i for key,
+                item in j.items()}
 
         source = sides_to_rotate[0]
         s_side = self._sides[source['side']]
