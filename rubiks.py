@@ -1,5 +1,5 @@
-def print_color(c):
-    if c[0] == ' ':
+def print_color(color):
+    if color[0] == ' ':
         return [' ', ' ', ' ']
     return ['\033[' + {
             'R': '91',
@@ -8,7 +8,7 @@ def print_color(c):
             'G': '92',
             'B': '94',
             'W': '97'
-            }[i] + 'm' + i + '\033[0m' for i in c]
+            }[i] + 'm' + i + '\033[0m' for i in color]
 
 
 class Rubiks_Side():
@@ -26,19 +26,19 @@ class Rubiks_Side():
         # self._face = rotate(rotate(rotate(self._face)))
         self._face = [list(i) for i in rotate(rotate(rotate(self._face)))]
 
-    def get_row(self, rowNum):
-        return self._face[rowNum]
+    def get_row(self, row_num):
+        return self._face[row_num]
 
-    def set_row(self, rowNum, row):
-        self._face[rowNum] = row
+    def set_row(self, row_num, row):
+        self._face[row_num] = row
 
-    def get_col(self, colNum):
-        return [self._face[0][colNum], self._face[1][colNum],
-                self._face[2][colNum]]
+    def get_col(self, col_num):
+        return [self._face[0][col_num], self._face[1][col_num],
+                self._face[2][col_num]]
 
-    def set_col(self, colNum, col):
+    def set_col(self, col_num, col):
         for i in range(len(col)):
-            self._face[i][colNum] = col[i]
+            self._face[i][col_num] = col[i]
 
 
 def rotate(l):
