@@ -64,12 +64,8 @@ class Rubiks_Cube():
         red = split_repr(self._sides[0])
         orange = [' '.join(print_color(i)) for i in
                   rotate(rotate(self._sides[1]._face))]
-        green = [
-            ' '.join(
-                print_color(i)) for i in rotate(
-                rotate(
-                    rotate(
-                        self._sides[2]._face)))]
+        green = [' '.join(print_color(i))
+                 for i in rotate(rotate(rotate(self._sides[2]._face)))]
         blue = [' '.join(print_color(i)) for i in rotate(self._sides[3]._face)]
         white = split_repr(self._sides[4])
         yellow = [' '.join(print_color(i[::-1])) for i in self._sides[5]._face]
